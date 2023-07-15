@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <Button
+        android:id="@+id/playButton_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minWidth="110dp"
+        android:layout_margin="25dp"
+        android:text="Play"/>
+
+    <Button
+        android:id="@+id/settingsButton_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="110dp"
+        android:layout_margin="25dp"
+        android:text="Settings"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="2023. Digital Artists"
+        android:textSize="18sp"
+        android:gravity="bottom|center"/>
+
+</LinearLayout>
