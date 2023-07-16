@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         Settings finalSettings = settings;
         findViewById(R.id.playButton_id).setOnClickListener(butPlay -> {
                 Intent intent = new Intent(this, PlayActivity.class);
@@ -78,16 +79,4 @@ public class MainActivity extends AppCompatActivity {
         checkTheme();
     }
 
-    // returning modified options from other activities
-    /*public void onActivityResult
-    (int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0
-                && resultCode == Activity.RESULT_OK) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                settings = data.getParcelableExtra(SETTINGS);
-            }
-
-        }
-    }*/
 }
