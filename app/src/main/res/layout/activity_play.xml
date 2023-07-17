@@ -27,17 +27,28 @@
         android:text="Time: 01:27"
         android:textSize="18sp" />
 
-    <TableLayout
-        android:id="@+id/buttonsPanel_id"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/minesLeft_id"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:gravity="center">
+        android:fillViewport="true">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+    <TableLayout
+        android:id="@+id/buttonsPanel_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     </TableLayout>
+        </ScrollView>
+
+    </HorizontalScrollView>
 
 </RelativeLayout>
