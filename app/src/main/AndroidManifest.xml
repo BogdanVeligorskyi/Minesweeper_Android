@@ -15,10 +15,10 @@
 
         <activity
             android:name=".view.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -29,6 +29,8 @@
 
         <activity
             android:name=".view.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="Settings"
             android:exported="true">
 
             <meta-data
@@ -38,6 +40,8 @@
 
         <activity
             android:name=".view.PlayActivity"
+            android:screenOrientation="portrait"
+            android:label="Game"
             android:exported="true">
 
             <meta-data
