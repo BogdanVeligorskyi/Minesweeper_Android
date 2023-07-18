@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.digitalartists.minesweeper.R;
@@ -48,28 +50,56 @@ public class SettingsActivity extends AppCompatActivity {
         EditText editMines = findViewById(R.id.numberOfMines_id);
         editMines.setText(""+settings.getMinesNum());
 
+        TextView textError = findViewById(R.id.errorText_id);
+        textError.setText("");
+
         findViewById(R.id.saveSettings_id).setOnClickListener(butPlay -> {
             settings.setCols(Integer.parseInt(String.valueOf(editCols.getText())));
             settings.setRows(Integer.parseInt(String.valueOf(editRows.getText())));
             settings.setMinesNum(Integer.parseInt(String.valueOf(editMines.getText())));
-            if (isDarkModeOn.isChecked()) {
-                settings.setIsDarkMode(1);
+
+            int res = isEnteredValuesCorrect(settings.getRows(), settings.getCols(), settings.getMinesNum());
+
+            // check if entered values are correct
+            if (res == 1) {
+                textError.setText("Incorrect number of rows!");
+            } else if (res == 2) {
+                textError.setText("Incorrect number of columns!");
+            } else if (res == 3) {
+                textError.setText("Incorrect number of mines!");
             } else {
-                settings.setIsDarkMode(0);
+                textError.setText("");
+                if (isDarkModeOn.isChecked()) {
+                    settings.setIsDarkMode(1);
+                } else {
+                    settings.setIsDarkMode(0);
+                }
+
+                try {
+                    FileProcessing.saveSettings(context, settings);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                finish();
             }
 
-            try {
-                FileProcessing.saveSettings(context, settings);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            finish();
         });
 
     }
 
-
+    private int isEnteredValuesCorrect(int rows, int cols, int mines) {
+        if (rows <= 0 || rows > 25) {
+            return 1;
+        }
+        if (cols <= 0 || cols > 25) {
+            return 2;
+        }
+        if (mines <= 0 || mines > rows*cols / 3) {
+            return 3;
+        }
+        return 0;
+    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
