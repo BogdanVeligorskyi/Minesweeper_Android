@@ -83,7 +83,9 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_margin="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:textSize="18sp"
         android:text="Number of Mines:"/>
 
@@ -92,8 +94,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_margin="25dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="2dp"
         android:inputType="number"
         android:text="15"/>
 
@@ -111,6 +114,8 @@
         android:id="@+id/saveSettings_id"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:minWidth="110dp"
+        android:minHeight="60dp"
         android:layout_gravity="bottom|center_horizontal"
         android:text="Save"/>
 

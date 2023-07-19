@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
-
         if (savedInstanceState != null) {
             settings = savedInstanceState.getParcelable(SETTINGS);
         } else {
@@ -43,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
         });
 
-        findViewById(R.id.settingsButton_id).setOnClickListener( butPlay -> {
+        Settings finalSettings1 = settings;
+        findViewById(R.id.settingsButton_id).setOnClickListener(butPlay -> {
             Intent intent = new Intent(this, SettingsActivity.class);
-            intent.putExtra(SETTINGS, settings);
-            Log.d("Settings (ROWS) before", ""+settings.getRows());
+            intent.putExtra(SETTINGS, finalSettings1);
+            Log.d("Settings (ROWS) before", ""+ finalSettings1.getRows());
             startActivity(intent);
         });
         checkTheme();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,14 +15,19 @@ public class FileProcessing {
     public static final String SETTINGS_FILENAME = "settings.txt";
 
     public static Settings loadSettings(Context context) throws IOException {
+        Settings settings = null;
+        File file = context.getFileStreamPath(SETTINGS_FILENAME);
+        if (!file.exists()) {
+            settings = new Settings(10, 10, 15, 0);
+            return settings;
+        }
         InputStream is = context.openFileInput(SETTINGS_FILENAME);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String s = "";
-        Settings settings = null;
         while ((s = reader.readLine()) != null) {
             Log.d("s.length", ""+s.length());
             if (s.length() == 0) {
-                return null;
+                break;
             }
             String[] valuesSettings = s.split(",");
             settings = new Settings(Integer.parseInt(valuesSettings[0]),

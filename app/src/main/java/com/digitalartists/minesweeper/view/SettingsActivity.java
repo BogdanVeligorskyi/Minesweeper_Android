@@ -30,7 +30,11 @@ public class SettingsActivity extends AppCompatActivity {
             settings = savedInstanceState.getParcelable(MainActivity.SETTINGS);
         } else {
             Log.d("2","");
-            settings = getIntent().getParcelableExtra(MainActivity.SETTINGS);
+            try {
+                settings = FileProcessing.loadSettings(context);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         Log.d("ROWS", String.valueOf(settings.getRows()));
