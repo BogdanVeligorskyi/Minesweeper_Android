@@ -14,7 +14,10 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    // keywords
     public static final String SETTINGS = "SETTINGS";
+
+    // settings object
     private Settings settings = null;
 
     @Override
@@ -32,25 +35,34 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-
+        // handler for 'Play' button
         Settings finalSettings = settings;
         findViewById(R.id.playButton_id).setOnClickListener(butPlay -> {
                 Intent intent = new Intent(this, PlayActivity.class);
-
                 intent.putExtra(SETTINGS, finalSettings);
                 startActivity(intent);
         });
 
-        Settings finalSettings1 = settings;
-        findViewById(R.id.settingsButton_id).setOnClickListener(butPlay -> {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            intent.putExtra(SETTINGS, finalSettings1);
-            Log.d("Settings (ROWS) before", ""+ finalSettings1.getRows());
+        // handler for 'Results' button
+        findViewById(R.id.resultsButton_id).setOnClickListener(butPlay -> {
+            Intent intent = new Intent(this, ResultsActivity.class);
+            //Log.d("Settings (ROWS) before", ""+ finalSettings1.getRows());
             startActivity(intent);
         });
+
+        // handler for 'Settings' button
+        Settings finalSettings2 = settings;
+        findViewById(R.id.settingsButton_id).setOnClickListener(butPlay -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra(SETTINGS, finalSettings2);
+            //Log.d("Settings (ROWS) before", ""+ finalSettings2.getRows());
+            startActivity(intent);
+        });
+
         checkTheme();
+
     }
+
 
     // switch theme after closing 'Options' screen if it was changed
     private void checkTheme() {
@@ -63,12 +75,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    // save window state
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(MainActivity.SETTINGS, settings);
     }
 
+
+    // after return to this activity
     @Override
     public void onResume(){
         super.onResume();

@@ -1,4 +1,7 @@
 package com.digitalartists.minesweeper.view;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,18 +16,27 @@ import com.digitalartists.minesweeper.R;
 import com.digitalartists.minesweeper.model.FileProcessing;
 import com.digitalartists.minesweeper.model.Settings;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PlayActivity extends AppCompatActivity {
 
-    private Settings settings;
-    private int numOfMines;
-    private int minesCounter;
+    private Settings settings;          // settings object
+    private TimerTask timerTask;        // timer runner
+    private int secondsAfterStart;      // time (in seconds) after start
+    private int numOfMines;             // number of mines
+    private int minesCounter;           // mines left
 
-    private int[] mines_arr = null;
-    private int[] visited_arr = null;
+    private int[] mines_arr = null;     // array of mines
+    private int[] visited_arr = null;   // cols*rows array of each button id
 
+    private TextView tvTime;
+
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +54,9 @@ public class PlayActivity extends AppCompatActivity {
         }
 
         TextView tvMinesLeft = findViewById(R.id.minesLeft_id);
-        TextView tvTime = findViewById(R.id.time_id);
+        tvTime = findViewById(R.id.time_id);
 
-        tvMinesLeft.setText("Mines Left: " + settings.getMinesNum());
+        tvMinesLeft.setText(String.format("Mines Left: %d", settings.getMinesNum()));
 
         numOfMines = settings.getMinesNum();
         minesCounter = numOfMines;
@@ -54,6 +66,39 @@ public class PlayActivity extends AppCompatActivity {
 
         TableLayout tableLayout;
         ImageView imageButton;
+
+        // create time counter
+        secondsAfterStart = 0;
+        Timer timer = new Timer();
+        timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                runOnUiThread(() -> {
+                    secondsAfterStart++;
+                    String strTime = "Time: ";
+                    int minutes = secondsAfterStart / 60;
+                    int seconds = secondsAfterStart % 60;
+
+                    if (minutes < 10) {
+                        strTime += "0";
+                    }
+                    strTime += minutes;
+
+                    strTime += ":";
+
+                    if (seconds < 10) {
+                        strTime += "0";
+                    }
+                    strTime += seconds;
+
+                    tvTime.setText(strTime);
+
+                });
+
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
 
         // create ImageView components (buttons) for game board
         for (int i = 0; i < settings.getRows(); i++) {
@@ -74,9 +119,6 @@ public class PlayActivity extends AppCompatActivity {
                 // handler for CLICK on this image (button)
                 imageButton.setOnClickListener(v -> {
                     ImageView iView = (ImageView) v;
-                    //Toast.makeText(getApplicationContext(),
-                    //        "You`ve clicked button " + iView.getId(),
-                    //        Toast.LENGTH_SHORT).show();
 
                     if (visited_arr[iView.getId()] == 2 || visited_arr[iView.getId()] == 1) {
                         return;
@@ -85,8 +127,8 @@ public class PlayActivity extends AppCompatActivity {
                     // check if clicked button contains mine and
                     // stop the game if it`s true
                     if (checkIfMine(iView.getId())) {
+                        timerTask.cancel();
                         setIconToButton(iView, -3);
-
                         AlertDialog.Builder dialog =
                                 new AlertDialog.Builder(this);
                         dialog.setCancelable(false);
@@ -96,13 +138,14 @@ public class PlayActivity extends AppCompatActivity {
                         dialog.setPositiveButton("Ok", ((dialogInterface, m) -> finish()));
                         dialog.create();
                         dialog.show();
+                        secondsAfterStart = 0;
 
                     } else {
                         checkNeighbourCells(iView.getId());
                     }
 
                     if (checkIfEnd()) {
-                        //timer->stop();
+                        timerTask.cancel();
                         AlertDialog.Builder dialog =
                                 new AlertDialog.Builder(this);
                         dialog.setCancelable(false);
@@ -113,17 +156,14 @@ public class PlayActivity extends AppCompatActivity {
                         dialog.create();
                         dialog.show();
 
-                        //addResultToFile(name);
+                        secondsAfterStart = 0;
+                        addResultToFile(getApplicationContext());
                     }
                 });
 
                 // handler for LONG CLICK on this image (button)
                 imageButton.setOnLongClickListener(v -> {
                     ImageView iView = (ImageView) v;
-                    //Toast.makeText(getApplicationContext(),
-                    //        "You`ve LONG clicked button " + iView.getId(),
-                    //        Toast.LENGTH_SHORT).show();
-                    //iView.setImageResource(R.drawable.flag);
                     iView.setClickable(false);
 
                     // if cell hasn`t been clicked or visited
@@ -132,7 +172,7 @@ public class PlayActivity extends AppCompatActivity {
                         minesCounter--;
                         visited_arr[iView.getId()] = 2;
 
-                        // if cell has been already clicked with RMB - return one mine
+                        // if cell has been already long-clicked - return one mine
                     } else if (visited_arr[iView.getId()] == 2) {
                         setIconToButton(iView, -2);
                         minesCounter++;
@@ -140,11 +180,10 @@ public class PlayActivity extends AppCompatActivity {
                     }
 
                     // change label text according to number of mines left
-                    String text = "Mines Left: " + minesCounter;
-                    tvMinesLeft.setText(text);
+                    tvMinesLeft.setText(String.format("Mines Left: %d", minesCounter));
 
                     if (checkIfEnd()) {
-                        //timer->stop();
+                        timerTask.cancel();
 
                         AlertDialog.Builder dialog =
                                 new AlertDialog.Builder(this);
@@ -155,9 +194,9 @@ public class PlayActivity extends AppCompatActivity {
                         dialog.setPositiveButton("Ok", ((dialogInterface, m) -> finish()));
                         dialog.create();
                         dialog.show();
-                        //addResultToFile(name);
+                        addResultToFile(getApplicationContext());
 
-                        //secondsAfterStart = 0;
+                        secondsAfterStart = 0;
 
                     }
 
@@ -170,13 +209,13 @@ public class PlayActivity extends AppCompatActivity {
                     TableRow.LayoutParams.WRAP_CONTENT));
         }
 
-
     }
+
+    // generate mines
     private int[] generateMines(int square) {
         mines_arr = new int[numOfMines];
         int min = 1;
         int max = square - 1;
-            //Log.d("HERE", "12121");
         for (int i = 0; i < numOfMines; i++) {
             boolean isUnique = false;
             while (!isUnique) {
@@ -199,6 +238,7 @@ public class PlayActivity extends AppCompatActivity {
         return mines_arr;
     }
 
+
     // check if clicked button contains a mine
     boolean checkIfMine(int buttonNumInt) {
         for (int i = 0; i < numOfMines; i++) {
@@ -211,7 +251,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
     // draw route until cell with mine as neighbour is found
-    int checkNeighbourCells(int butNum) {
+    void checkNeighbourCells(int butNum) {
 
         Queue <Integer> queue = new LinkedList<>();
         queue.add(butNum);
@@ -225,7 +265,6 @@ public class PlayActivity extends AppCompatActivity {
         while (queue.size() > 0) {
 
             butNum = queue.element();
-            //qDebug() << "ButNum =" << butNum;
             arr_of_neighbours[0] = butNum - cols;
             arr_of_neighbours[1] = butNum - cols + 1;
             arr_of_neighbours[2] = butNum + 1;
@@ -249,59 +288,40 @@ public class PlayActivity extends AppCompatActivity {
             }
 
         }
-        //qDebug() << "jjjjj";
 
         int minesInNeighbourCells = 0;
-        //QRightClickButton* button;
 
         for (int j = 0; j < rows*cols; j++) {
             if (visited_arr[j] == 1) {
                 if (checkForMinesCount(j - cols, j - cols) == 1) {
-                    //qDebug() << "MinesCounter0:" << minesInNeighbourCells;
                     minesInNeighbourCells++;
                 }
                 if (((j % cols) != (cols-1)) && checkForMinesCount(j - cols + 1, j - cols + 1) == 1) {
-                    //qDebug() << "j:" << j;
-                    //qDebug() << "MinesCounter1:" << minesInNeighbourCells;
                     minesInNeighbourCells++;
                 }
                 if (((j % cols) != (cols - 1)) && checkForMinesCount(j + 1, j + 1) == 1) {
-                    //qDebug() << "MinesCounter2:" << minesInNeighbourCells;
-                    //qDebug() << "j:" << j;
                     minesInNeighbourCells++;
                 }
                 if (((j % cols) != (cols - 1)) && checkForMinesCount(j + cols + 1, j + cols + 1) == 1) {
-                    //qDebug() << "MinesCounter3:" << minesInNeighbourCells;
-                    //qDebug() << "j:" << j;
                     minesInNeighbourCells++;
                 }
                 if (checkForMinesCount(j + cols, j + cols) == 1) {
-                    //qDebug() << "MinesCounter4:" << minesInNeighbourCells;
                     minesInNeighbourCells++;
                 }
                 if (((j % cols) != 0) && checkForMinesCount(j + cols - 1, j + cols - 1) == 1) {
-                    //qDebug() << "MinesCounter5:" << minesInNeighbourCells;
-                    //qDebug() << "j:" << j;
                     minesInNeighbourCells++;
                 }
                 if (((j % cols) != 0) && checkForMinesCount(j - 1, j - 1) == 1) {
-                    //qDebug() << "MinesCounter6:" << minesInNeighbourCells;
-                    //qDebug() << "j:" << j;
                     minesInNeighbourCells++;
                 }
                 if (((j % cols) != 0) && checkForMinesCount(j - cols - 1, j - cols - 1) == 1) {
-                    //qDebug() << "MinesCounter7:" << minesInNeighbourCells;
-                    //qDebug() << "j:" << j;
                     minesInNeighbourCells++;
                 }
-                //button = ui->gridLayoutWidget->findChild<QRightClickButton *>("pushButton_" + QString::number(j));
                 ImageView imageView = findViewById(j);
                 setIconToButton(imageView, minesInNeighbourCells);
             }
             minesInNeighbourCells = 0;
         }
-
-        return 0;
     }
 
     // set icon to button in order to show additional information needed for user
@@ -394,16 +414,14 @@ public class PlayActivity extends AppCompatActivity {
     // check if coordinates of button are valid
     boolean checkIfValidCoord(int firstParam, int num) {
 
+        // transform num into x and y coordinates
         int x = num % settings.getCols();
         int y = num / settings.getCols();
         int x_prev = firstParam % settings.getCols();
 
-        // if cell is out of range
-        if (x < 0 || y < 0 || x >= settings.getCols() || y >= settings.getRows() ||
-                (x == 0 && x_prev == (settings.getCols()-1)) || (x == (settings.getCols()-1) && x_prev == 0)) {
-            return false;
-        }
-        return true;
+        // check if cell is out of range
+        return x >= 0 && y >= 0 && x < settings.getCols() && y < settings.getRows() &&
+                (x != 0 || x_prev != (settings.getCols() - 1)) && (x != (settings.getCols() - 1) || x_prev != 0);
     }
 
 
@@ -415,6 +433,23 @@ public class PlayActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+
+    // add result to file
+    private void addResultToFile(Context context) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        System.out.println(formatter.format(date));
+
+        String result = "Time=" + tvTime.getText().subSequence(6, 11) + ", date=" + formatter.format(date) + ", size=" +
+                settings.getRows() + "x" + settings.getCols() + ", mines=" + settings.getMinesNum();
+
+        try {
+            FileProcessing.saveResult(context, result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

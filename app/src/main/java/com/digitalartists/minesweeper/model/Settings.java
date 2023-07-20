@@ -3,12 +3,13 @@ package com.digitalartists.minesweeper.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+// Settings class
 public class Settings implements Parcelable {
 
-    private int cols;
-    private int rows;
-    private int minesNum;
-    private int isDarkMode;
+    private int cols;       // number of columns
+    private int rows;       // number of rows
+    private int minesNum;   // number of mines
+    private int isDarkMode; // is dark mode enabled
 
     public Settings(int cols, int rows, int minesNum, int isDarkMode) {
         this.cols = cols;
