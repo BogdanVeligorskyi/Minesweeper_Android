@@ -23,6 +23,7 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
+// Play Activity class
 public class PlayActivity extends AppCompatActivity {
 
     private Settings settings;          // settings object
@@ -205,7 +206,8 @@ public class PlayActivity extends AppCompatActivity {
 
                 tableRow.addView(imageButton);
             }
-            tableLayout.addView(tableRow, new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+            tableLayout.addView(tableRow, new TableRow.LayoutParams(
+                    TableRow.LayoutParams.WRAP_CONTENT,
                     TableRow.LayoutParams.WRAP_CONTENT));
         }
 
@@ -291,6 +293,7 @@ public class PlayActivity extends AppCompatActivity {
 
         int minesInNeighbourCells = 0;
 
+        // count mines in neighbour cells
         for (int j = 0; j < rows*cols; j++) {
             if (visited_arr[j] == 1) {
                 if (checkForMinesCount(j - cols, j - cols) == 1) {
@@ -438,12 +441,15 @@ public class PlayActivity extends AppCompatActivity {
 
     // add result to file
     private void addResultToFile(Context context) {
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();
         System.out.println(formatter.format(date));
 
-        String result = "Time=" + tvTime.getText().subSequence(6, 11) + ", date=" + formatter.format(date) + ", size=" +
-                settings.getRows() + "x" + settings.getCols() + ", mines=" + settings.getMinesNum();
+        String result = "Time=" + tvTime.getText().subSequence(6, 11)
+                + ", date=" + formatter.format(date)
+                + ", size=" + settings.getRows() + "x" + settings.getCols()
+                + ", mines=" + settings.getMinesNum();
 
         try {
             FileProcessing.saveResult(context, result);

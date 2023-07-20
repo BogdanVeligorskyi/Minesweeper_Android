@@ -14,6 +14,7 @@ import com.digitalartists.minesweeper.model.FileProcessing;
 import com.digitalartists.minesweeper.model.Settings;
 import java.io.IOException;
 
+// Settings Activity class
 public class SettingsActivity extends AppCompatActivity {
 
     // settings object
@@ -27,10 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         Context context = getApplicationContext();
         if (savedInstanceState != null) {
-            //Log.d("1", "");
             settings = savedInstanceState.getParcelable(MainActivity.SETTINGS);
         } else {
-            //Log.d("2","");
             try {
                 settings = FileProcessing.loadSettings(context);
             } catch (IOException e) {

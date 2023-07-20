@@ -13,7 +13,7 @@
         tools:ignore="UseSwitchCompatOrMaterialXml"
         android:layout_margin="25dp"
         android:textSize="18sp"
-        android:text="Dark Mode">
+        android:text="@string/dark_mode_switch">
     </Switch>
 
     <LinearLayout
@@ -32,7 +32,7 @@
             android:layout_marginBottom="2dp"
             android:gravity="center_horizontal"
             android:textSize="18sp"
-            android:text="Rows:"/>
+            android:text="@string/rows"/>
 
         <TextView
             android:layout_width="0dp"
@@ -44,7 +44,7 @@
             android:layout_marginBottom="2dp"
             android:gravity="center_horizontal"
             android:textSize="18sp"
-            android:text="Columns:"/>
+            android:text="@string/columns"/>
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +63,6 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:gravity="center_horizontal"
-            android:text="10"
             android:inputType="number" />
 
         <EditText
@@ -76,8 +75,8 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:gravity="center_horizontal"
-            android:text="10"
             android:inputType="number"/>
+
     </LinearLayout>
 
     <TextView
@@ -87,7 +86,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:textSize="18sp"
-        android:text="Number of Mines:"/>
+        android:text="@string/number_of_mines"/>
 
     <EditText
         android:id="@+id/numberOfMines_id"
@@ -97,8 +96,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginTop="2dp"
-        android:inputType="number"
-        android:text="15"/>
+        android:inputType="number"/>
 
     <TextView
         android:id="@+id/errorText_id"
@@ -117,6 +115,6 @@
         android:minWidth="110dp"
         android:minHeight="60dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:text="Save"/>
+        android:text="@string/save_button"/>
 
 </LinearLayout>

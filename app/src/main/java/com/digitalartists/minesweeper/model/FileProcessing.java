@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+// class which contains methods for files processing
 public class FileProcessing {
 
     // filenames
@@ -22,7 +23,7 @@ public class FileProcessing {
         Settings settings = null;
         File file = context.getFileStreamPath(SETTINGS_FILENAME);
 
-        // if application is run for the first time - don`t read settings.txt -
+        // if application is run for the first time - don`t read settings.txt
         if (!file.exists()) {
             settings = new Settings(10, 10, 15, 0);
             return settings;
@@ -87,7 +88,7 @@ public class FileProcessing {
     public static String loadResults(Context context) throws IOException {
         File file = context.getFileStreamPath(RESULTS_FILENAME);
 
-        // if application is run for the first time - don`t read results.txt -
+        // if application is run for the first time - don`t read results.txt
         if (!file.exists()) {
             return "";
         }

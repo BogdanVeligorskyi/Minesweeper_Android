@@ -16,7 +16,7 @@
         android:minWidth="140dp"
         android:minHeight="60dp"
         android:layout_margin="25dp"
-        android:text="Play"/>
+        android:text="@string/play_button"/>
 
     <Button
         android:id="@+id/resultsButton_id"
@@ -25,7 +25,7 @@
         android:minWidth="140dp"
         android:minHeight="60dp"
         android:layout_margin="25dp"
-        android:text="Results"/>
+        android:text="@string/results_button"/>
 
     <Button
         android:id="@+id/settingsButton_id"
@@ -34,7 +34,7 @@
         android:minWidth="140dp"
         android:minHeight="60dp"
         android:layout_margin="25dp"
-        android:text="Settings"/>
+        android:text="@string/settings_button"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             android:gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="App version: 1.0"
+            android:text="@string/app_version"
             android:textSize="18sp"/>
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_margin="10dp"
-            android:text="2023. Digital Artists"
+            android:text="@string/developer_info"
             android:textSize="18sp"/>
     </LinearLayout>
 

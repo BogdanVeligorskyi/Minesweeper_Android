@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Minesweeper</string>
+
+    <string name="settings_activity_label">Minesweeper - Settings</string>
+    <string name="results_activity_label">Minesweeper - Results</string>
+    <string name="play_activity_label">Minesweeper - Game</string>
+    <string name="play_button">Play</string>
+    <string name="results_button">Results</string>
+    <string name="settings_button">Settings</string>
+    <string name="app_version">App version: 1.0</string>
+    <string name="developer_info">2023. Digital Artists</string>
+    <string name="mines_left">Mines Left: 15</string>
+    <string name="time">Time: 01:27</string>
+    <string name="clear_button">Clear</string>
+    <string name="dark_mode_switch">Dark Mode</string>
+    <string name="rows">Rows:</string>
+    <string name="columns">Columns:</string>
+    <string name="number_of_mines">Number of Mines:</string>
+    <string name="save_button">Save</string>
 </resources>

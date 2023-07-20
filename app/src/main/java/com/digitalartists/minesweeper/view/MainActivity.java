@@ -3,7 +3,6 @@ package com.digitalartists.minesweeper.view;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -12,6 +11,7 @@ import com.digitalartists.minesweeper.model.FileProcessing;
 import com.digitalartists.minesweeper.model.Settings;
 import java.io.IOException;
 
+// Main Activity class
 public class MainActivity extends AppCompatActivity {
 
     // keywords
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     // settings object
     private Settings settings = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         // handler for 'Results' button
         findViewById(R.id.resultsButton_id).setOnClickListener(butPlay -> {
             Intent intent = new Intent(this, ResultsActivity.class);
-            //Log.d("Settings (ROWS) before", ""+ finalSettings1.getRows());
             startActivity(intent);
         });
 
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.settingsButton_id).setOnClickListener(butPlay -> {
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.putExtra(SETTINGS, finalSettings2);
-            //Log.d("Settings (ROWS) before", ""+ finalSettings2.getRows());
             startActivity(intent);
         });
 
@@ -88,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        Log.d("RESUME", "");
         try {
             settings = FileProcessing.loadSettings(getApplicationContext());
         } catch (IOException e) {

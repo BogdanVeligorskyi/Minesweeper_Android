@@ -9,6 +9,7 @@ import com.digitalartists.minesweeper.R;
 import com.digitalartists.minesweeper.model.FileProcessing;
 import java.io.IOException;
 
+// Results Activity class
 public class ResultsActivity extends AppCompatActivity {
 
     @Override
@@ -21,6 +22,7 @@ public class ResultsActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         String results = "";
 
+        // read results from results.txt
         try {
             results = FileProcessing.loadResults(context);
         } catch (IOException e) {
@@ -29,6 +31,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         tvResults.setText(results);
 
+        // handler for 'Clear' button
         findViewById(R.id.clear_id).setOnClickListener(butPlay -> {
             try {
                 FileProcessing.clearResults(getApplicationContext());

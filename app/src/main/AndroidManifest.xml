@@ -28,7 +28,7 @@
         <activity
             android:name=".view.SettingsActivity"
             android:screenOrientation="portrait"
-            android:label="Minesweeper - Settings"
+            android:label="@string/settings_activity_label"
             android:exported="true">
 
             <meta-data
@@ -39,7 +39,7 @@
         <activity
             android:name=".view.ResultsActivity"
             android:screenOrientation="portrait"
-            android:label="Minesweeper - Results"
+            android:label="@string/results_activity_label"
             android:exported="true">
 
             <meta-data
@@ -50,7 +50,7 @@
         <activity
             android:name=".view.PlayActivity"
             android:screenOrientation="portrait"
-            android:label="Minesweeper - Game"
+            android:label="@string/play_activity_label"
             android:exported="true">
 
             <meta-data

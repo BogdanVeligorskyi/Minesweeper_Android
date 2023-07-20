@@ -23,7 +23,7 @@
             android:layout_marginBottom="10dp"
             android:textAlignment="textStart"
             android:textSize="18sp"
-            android:text="Mines Left: 15"/>
+            android:text="@string/mines_left"/>
 
         <TextView
             android:id="@+id/time_id"
@@ -36,7 +36,7 @@
             android:layout_marginBottom="10dp"
             android:textAlignment="textEnd"
             android:textSize="18sp"
-            android:text="Time: 01:27"/>
+            android:text="@string/time"/>
     </LinearLayout>
 
     <LinearLayout
